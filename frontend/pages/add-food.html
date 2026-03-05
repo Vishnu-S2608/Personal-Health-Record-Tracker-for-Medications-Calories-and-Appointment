@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Add Food</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f0e8;
+      --surface: #fffdf8;
+      --border: #e2d9c8;
+      --text: #1c1a16;
+      --muted: #8a7f6e;
+      --accent: #3a6b4a;
+      --accent-light: #e8f0ea;
+      --accent-hover: #2d5239;
+      --danger: #c0392b;
+      --shadow: 0 2px 12px rgba(0,0,0,0.07);
+      --radius: 14px;
+    }
+
+    body {
+      background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    /* Decorative background blobs */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      z-index: 0;
+      filter: blur(80px);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    body::before {
+      width: 420px; height: 420px;
+      background: #a8c5a0;
+      top: -80px; right: -80px;
+    }
+    body::after {
+      width: 320px; height: 320px;
+      background: #d4b896;
+      bottom: -60px; left: -60px;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2.5rem 2.5rem 2.8rem;
+      width: 100%;
+      max-width: 460px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.09);
+      animation: slideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+    }
+
+    .header-icon {
+      width: 44px; height: 44px;
+      background: var(--accent-light);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+
+    .header p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    /* Form */
+    .form-group {
+      margin-bottom: 1.1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.45rem;
+    }
+
+    input, select {
+      width: 100%;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      appearance: none;
+    }
+
+    input::placeholder { color: #b8ae9f; }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(58,107,74,0.12);
+    }
+
+    /* Row layout for quantity + unit */
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+
+    /* Select custom arrow */
+    .select-wrap {
+      position: relative;
+    }
+    .select-wrap::after {
+      content: '▾';
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+      font-size: 0.9rem;
+    }
+    select { cursor: pointer; padding-right: 2.5rem; }
+
+    /* Meal type pills */
+    .meal-pills {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .meal-pill {
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.18s;
+      user-select: none;
+    }
+
+    .meal-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+    .meal-pill.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 500;
+    }
+
+    /* Hidden select (for form submission still works) */
+    #mealType { display: none; }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 1.5rem 0;
+    }
+
+    /* Button */
+    button {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      transition: background 0.2s, transform 0.12s, box-shadow 0.2s;
+      box-shadow: 0 4px 18px rgba(58,107,74,0.28);
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    button:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 6px 24px rgba(58,107,74,0.38);
+    }
+
+    button:active { transform: scale(0.98); }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 2rem; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--text);
+      color: #fff;
+      padding: 0.7rem 1.5rem;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      z-index: 100;
+      opacity: 0;
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.3s;
+      white-space: nowrap;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <div class="header-icon">🥗</div>
+    <div>
+      <h1>Add Food</h1>
+      <p>Log what you've eaten today</p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="foodName">Food Name</label>
+    <input type="text" id="foodName" placeholder="e.g. Oatmeal, Chicken breast…">
+  </div>
+
+  <div class="form-group">
+    <label for="calories">Calories per Serving</label>
+    <input type="number" id="calories" placeholder="e.g. 250" min="0">
+  </div>
+
+  <div class="row">
+    <div class="form-group">
+      <label for="quantity">Quantity</label>
+      <input type="number" id="quantity" value="1" min="0.1" step="0.1">
+    </div>
+    <div class="form-group">
+      <label for="unit">Unit</label>
+      <input type="text" id="unit" value="serving">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Meal Type</label>
+    <div class="meal-pills" id="mealPills">
+      <span class="meal-pill active" data-value="breakfast">🌅 Breakfast</span>
+      <span class="meal-pill" data-value="lunch">☀️ Lunch</span>
+      <span class="meal-pill" data-value="dinner">🌙 Dinner</span>
+      <span class="meal-pill" data-value="snack">🍎 Snack</span>
+    </div>
+    <select id="mealType">
+      <option value="breakfast">Breakfast</option>
+      <option value="lunch">Lunch</option>
+      <option value="dinner">Dinner</option>
+      <option value="snack">Snack</option>
+    </select>
+  </div>
+
+  <div class="divider"></div>
+
+  <button onclick="addFood()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Add to Log
+  </button>
+</div>
+
+<div class="toast" id="toast">✅ Food added to your log!</div>
+
+<script>
+  const pills = document.querySelectorAll('.meal-pill');
+  const mealSelect = document.getElementById('mealType');
+  const foodInput = document.getElementById("foodName");
+  const caloriesInput = document.getElementById("calories");
+
+  // ===============================
+  // Meal pill selection
+  // ===============================
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      mealSelect.value = pill.dataset.value;
+    });
+  });
+
+  // ===============================
+  // Toast
+  // ===============================
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  function formatDate(date) {
+    return date.toISOString().split("T")[0];
+  }
+
+  function loadLogs() {
+    return JSON.parse(localStorage.getItem("foodLogs")) || [];
+  }
+
+  function saveLogs(logs) {
+    localStorage.setItem("foodLogs", JSON.stringify(logs));
+  }
+
+  // ===============================
+  // USDA AUTO CALORIE FETCH
+  // ===============================
+
+  let debounceTimer;
+
+  foodInput.addEventListener("input", function () {
+
+    clearTimeout(debounceTimer);
+
+    const food = foodInput.value.trim();
+
+    if (food.length < 3) return;
+
+    debounceTimer = setTimeout(() => {
+      fetchCalories(food);
+    }, 600);
+  });
+
+  async function fetchCalories(food) {
+
+    try {
+
+      const response = await fetch("http://127.0.0.1:5000/api/nutrition", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ food: food })
+      });
+
+      const data = await response.json();
+
+      console.log("USDA Response:", data);
+
+      if (data.calories && caloriesInput) {
+        caloriesInput.value = Math.round(data.calories);
+      } else {
+        console.log("No calories found");
+      }
+
+    } catch (error) {
+      console.log("Nutrition API Error:", error);
+    }
+  }
+
+  // ===============================
+  // ADD FOOD (UNCHANGED LOGIC)
+  // ===============================
+
+  function addFood() {
+
+    const foodName = document.getElementById('foodName').value.trim();
+    const calories = parseFloat(document.getElementById('calories').value);
+    const quantity = parseFloat(document.getElementById('quantity').value);
+    const unit = document.getElementById('unit').value;
+    const mealType = mealSelect.value;
+
+    if (!foodName || !calories || !quantity) {
+      showToast('⚠️ Please fill all required fields');
+      return;
+    }
+
+    const logs = loadLogs();
+
+    const newEntry = {
+      id: Date.now().toString(),
+      foodName,
+      calories,
+      quantity,
+      unit,
+      mealType,
+      date: formatDate(new Date())
+    };
+
+    logs.push(newEntry);
+    saveLogs(logs);
+
+    showToast(`✅ "${foodName}" added!`);
+
+    setTimeout(() => {
+      window.location.href = "calories.html";
+    }, 800);
+  }
+</script>
+</body>
+</html>

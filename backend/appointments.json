@@ -1,0 +1,67 @@
+[
+    {
+        "id": "7443e4cf-17cc-420f-b803-a808434de1f7",
+        "doctorName": "vikk",
+        "specialty": "cardio",
+        "hospital": "meenakshi",
+        "date": "2026-02-25",
+        "time": "17:13",
+        "notes": "important",
+        "reminderTiming": "1day",
+        "isOnline": false,
+        "meetLink": "",
+        "createdAt": "2026-02-25T11:45:41.082Z"
+    },
+    {
+        "id": "cc001da6-0df4-4d3f-a027-7dd40c7a068d",
+        "doctorName": "vishnu",
+        "specialty": "pediatrick",
+        "hospital": "meenatchi",
+        "date": "2026-02-28",
+        "time": "11:30",
+        "notes": "checkup",
+        "reminderTiming": "1day",
+        "isOnline": true,
+        "meetLink": "link",
+        "createdAt": "2026-02-26T05:59:51.750Z"
+    },
+    {
+        "id": "60aa1026-531c-40fe-95f6-a457e1b90da5",
+        "doctorName": "mani",
+        "specialty": "urology",
+        "hospital": "meenatchi",
+        "date": "2026-03-13",
+        "time": "15:56",
+        "notes": "",
+        "reminderTiming": "1day",
+        "isOnline": true,
+        "meetLink": "",
+        "createdAt": "2026-02-26T10:26:20.248Z"
+    },
+    {
+        "id": "f05328c6-c736-4989-b2ad-39c2906ac72e",
+        "doctorName": "kk",
+        "specialty": "neuro",
+        "hospital": "meenatchi",
+        "date": "2026-02-27",
+        "time": "16:02",
+        "notes": "clinic",
+        "reminderTiming": "1day",
+        "isOnline": false,
+        "meetLink": "",
+        "createdAt": "2026-02-26T10:32:04.609Z"
+    },
+    {
+        "id": "7f2a93a0-6065-41db-8e95-ae5226504234",
+        "doctorName": "vishnu",
+        "specialty": "urology",
+        "hospital": "appolo",
+        "date": "2026-03-05",
+        "time": "11:41",
+        "notes": "",
+        "reminderTiming": "1hour",
+        "isOnline": false,
+        "meetLink": "",
+        "createdAt": "2026-03-02T06:11:44.663Z"
+    }
+]

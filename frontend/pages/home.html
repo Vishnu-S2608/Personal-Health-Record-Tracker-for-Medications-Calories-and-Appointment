@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Tracker - Home</title>
+    <link rel="stylesheet" href="../styles/nav.css">
+    <link rel="stylesheet" href="../styles/home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- ░░ NAV — untouched ░░ -->
+    <div id="navbar-container"></div>
+
+    <!-- ░░ BACKGROUND ░░ -->
+    <div class="bg-mesh"></div>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+
+    <!-- ░░ HERO ░░ -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-left">
+                <span class="live-pill">
+                    <span class="pulse-dot"></span>
+                    <span id="live-time">--:--</span>
+                </span>
+                <p id="greeting" class="greeting"></p>
+                <h1 id="username" class="hero-name">
+                    <span id="username-text">User</span>
+                    <span class="wave">👋</span>
+                    <span class="edit-hint" title="Click to edit name">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </span>
+                </h1>
+                <p id="today-date" class="hero-date"></p>
+                <p class="hero-sub">Here's your health snapshot for today.</p>
+            </div>
+            <div class="hero-right">
+                <div class="hero-icon-wrap">
+                    <i class="fa-solid fa-heart-pulse hero-icon"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ░░ STAT STRIP ░░ -->
+    <section class="stats-section">
+        <div class="stats-grid">
+
+            <div class="stat-card" data-color="amber">
+                <div class="stat-icon"><i class="fa-solid fa-pills"></i></div>
+                <div class="stat-info">
+                    <p class="stat-label">Active Meds</p>
+                    <h2 class="stat-value" id="active-meds">—</h2>
+                    <span class="stat-badge">Today</span>
+                </div>
+                <div class="stat-glow"></div>
+            </div>
+
+            <div class="stat-card" data-color="emerald">
+                <div class="stat-icon"><i class="fa-solid fa-fire-flame-curved"></i></div>
+                <div class="stat-info">
+                    <p class="stat-label">Calories</p>
+                    <h2 class="stat-value" id="today-calories">—</h2>
+                    <span class="stat-badge">kcal today</span>
+                </div>
+                <div class="stat-glow"></div>
+            </div>
+
+            <div class="stat-card" data-color="sky">
+                <div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                <div class="stat-info">
+                    <p class="stat-label">Appointments</p>
+                    <h2 class="stat-value" id="appt-count">—</h2>
+                    <span class="stat-badge">Upcoming</span>
+                </div>
+                <div class="stat-glow"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ░░ DASHBOARD ░░ -->
+    <section class="dashboard">
+
+        <!-- MEDICATIONS -->
+        <div class="dash-card" data-accent="amber">
+            <div class="dash-card-header">
+                <div class="dash-icon-circle amber">
+                    <i class="fa-solid fa-capsules"></i>
+                </div>
+                <div>
+                    <h3 class="dash-title">Medications</h3>
+                    <p class="dash-subtitle">Today's schedule</p>
+                </div>
+                <a href="medications.html" class="dash-link">
+                    View all <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="dash-divider"></div>
+            <div id="medication-list" class="dash-content">
+                <div class="skeleton-row"></div>
+                <div class="skeleton-row short"></div>
+                <div class="skeleton-row"></div>
+            </div>
+            <a href="medications.html" class="dash-cta amber-cta">
+                <i class="fa-solid fa-plus"></i> Add Medication
+            </a>
+        </div>
+
+        <!-- CALORIES -->
+        <div class="dash-card" data-accent="emerald">
+            <div class="dash-card-header">
+                <div class="dash-icon-circle emerald">
+                    <i class="fa-solid fa-apple-whole"></i>
+                </div>
+                <div>
+                    <h3 class="dash-title">Nutrition</h3>
+                    <p class="dash-subtitle">Calorie intake today</p>
+                </div>
+                <a href="calories.html" class="dash-link">
+                    View all <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="dash-divider"></div>
+
+            <div class="calorie-display">
+                <!-- SVG Ring -->
+                <div class="calorie-ring-wrap">
+                    <svg class="calorie-ring" viewBox="0 0 120 120">
+                        <circle class="ring-track" cx="60" cy="60" r="50"/>
+                        <circle class="ring-fill emerald-ring"
+                            id="calorie-ring-fill"
+                            cx="60" cy="60" r="50"
+                            stroke-dasharray="314"
+                            stroke-dashoffset="314"/>
+                    </svg>
+                    <div class="ring-center">
+                        <h2 id="calorie-number">0</h2>
+                        <p>kcal</p>
+                    </div>
+                </div>
+
+                <!-- Meta -->
+                <div class="calorie-meta">
+                    <!-- Meal breakdown -->
+                    <div class="meal-breakdown" id="meal-breakdown"></div>
+                    <div class="calorie-meta-item">
+                        <span class="meta-dot emerald-dot"></span>
+                        <span>Consumed</span>
+                        <strong id="calorie-consumed-label">0 kcal</strong>
+                    </div>
+                    <div class="calorie-meta-item">
+                        <span class="meta-dot dim-dot"></span>
+                        <span>Remaining</span>
+                        <strong id="remaining-calories">2000 kcal</strong>
+                    </div>
+                    <div class="linear-bar">
+                        <div id="progress-fill" class="linear-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="add-food.html" class="dash-cta emerald-cta">
+                <i class="fa-solid fa-plus"></i> Log Meal
+            </a>
+        </div>
+
+        <!-- APPOINTMENTS -->
+        <div class="dash-card" data-accent="sky">
+            <div class="dash-card-header">
+                <div class="dash-icon-circle sky">
+                    <i class="fa-solid fa-stethoscope"></i>
+                </div>
+                <div>
+                    <h3 class="dash-title">Appointments</h3>
+                    <p class="dash-subtitle">Upcoming visits</p>
+                </div>
+                <a href="appointments.html" class="dash-link">
+                    View all <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="dash-divider"></div>
+            <div id="appointment-box" class="dash-content">
+                <div class="skeleton-row"></div>
+                <div class="skeleton-row short"></div>
+            </div>
+            <a href="add-appointment.html" class="dash-cta sky-cta">
+                <i class="fa-solid fa-plus"></i> Schedule Appointment
+            </a>
+        </div>
+
+    </section>
+
+    <!-- ░░ HEALTH TIP ░░ -->
+    <section class="tip-section">
+        <div class="tip-card">
+            <div class="tip-left">
+                <span class="tip-tag">
+                    <i class="fa-solid fa-lightbulb"></i> Daily Tip
+                </span>
+                <p id="health-tip" class="tip-text"></p>
+            </div>
+            <div class="tip-right">
+                <i class="fa-solid fa-seedling tip-icon"></i>
+            </div>
+        </div>
+    </section>
+
+    <div class="page-bottom-pad"></div>
+
+    <script src="../scripts/home.js"></script>
+    <script src="../scripts/navbar.js"></script>
+</body>
+</html>

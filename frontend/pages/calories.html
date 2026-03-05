@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calorie Tracker</title>
+    <link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/nav.css">
+    <link rel="stylesheet" href="../styles/calories.css">
+    
+</head>
+<body>
+    <div id="navbar-container"></div>
+    <!-- HEADER -->
+    <div class="header">
+        <h1>Calorie Tracker</h1>
+        <p id="dailyGoalText">Daily goal: 2000 kcal</p>
+    </div>
+
+    <div class="container">
+
+    <div class="top-grid">
+
+        <!-- CALORIE RING -->
+        <div class="card premium-card ring-card">
+            <div class="ring-wrapper">
+                <svg class="progress-ring" width="180" height="180">
+                    <defs>
+                        <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%"   stop-color="#02aab0"/>
+                        <stop offset="100%" stop-color="#00cdac"/>
+                    </linearGradient>
+                    </defs>
+                    <circle class="ring-bg" cx="90" cy="90" r="70" stroke-width="12"/>
+                    <circle class="ring-progress" cx="90" cy="90" r="70" stroke-width="12" id="calorieRing"/>
+                </svg>
+
+                <div class="ring-content">
+                    <h2 id="ringCalories">0</h2>
+                    <p>of 2500 kcal</p>
+                </div>
+            </div>
+
+            <div class="ring-stats">
+                <div>
+                    <span>Consumed</span>
+                    <strong id="totalCalories">0</strong>
+                </div>
+                <div>
+                    <span>Remaining</span>
+                    <strong id="remainingCalories">0</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- WATER TRACKER -->
+        <div class="card premium-card water-card">
+            <div class="section-header">
+                <h3>Hydration</h3>
+                <span><strong id="waterAmount">0</strong> / 2000 ml</span>
+            </div>
+
+            <div class="water-progress">
+                <div class="water-fill" id="waterFill"></div>
+            </div>
+
+            <div class="water-buttons">
+                <button class="water-btn" data-amount="250">+250ml</button>
+                <button class="water-btn" data-amount="500">+500ml</button>
+                <button class="water-btn reset">Reset</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MEALS TODAY -->
+    <div class="section-header">
+        <h3>Meals Today</h3>
+        <a href="add-food.html" class="add-btn">+ Add Food</a>
+    </div>
+
+    <div id="mealGroups"></div>
+
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../scripts/calories.js"></script>
+    <script src="../scripts/navbar.js"></script>
+</body>
+</html>

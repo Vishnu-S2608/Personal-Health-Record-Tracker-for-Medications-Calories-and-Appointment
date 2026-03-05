@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medications - Health Tracker</title>
+    <link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/nav.css">
+    <link rel="stylesheet" href="../styles/medications.css">
+    
+</head>
+<body>
+    <div id="navbar-container"></div>
+    <h1 class="page-title">Medication Tracker 💊</h1>
+
+    <!-- ADD MEDICATION FORM -->
+    <div class="card">
+        <h2>Add Medication</h2>
+        <form id="medForm">
+
+            <input type="text" id="name" placeholder="Medicine Name" required>
+
+            <input type="text" id="dosage" placeholder="Dosage (e.g., 500mg)" required>
+
+            <select id="frequency">
+                <option value="once">Once Daily</option>
+                <option value="twice">Twice Daily</option>
+                <option value="thrice">Thrice Daily</option>
+            </select>
+
+            <div class="timing-select">
+                <label><input type="checkbox" value="morning"> ☀️ Morning</label>
+                <label><input type="checkbox" value="afternoon"> 🌤 Afternoon</label>
+                <label><input type="checkbox" value="night"> 🌙 Night</label>
+            </div>
+
+            <select id="foodTiming">
+                <option value="after">After Food</option>
+                <option value="before">Before Food</option>
+            </select>
+
+            <label>Start Date</label>
+            <input type="date" id="startDate" required>
+
+            <label>End Date</label>
+            <input type="date" id="endDate" required>
+
+            <label>Reminder Time</label>
+            <input type="time" id="reminderTime" required>
+
+            <button type="submit" class="btn">➕ Add Medication</button>
+        </form>
+    </div>
+
+    <!-- TODAY'S TIMELINE -->
+    <div class="card">
+        <h2>Today's Medication Timeline</h2>
+        <div id="timeline"></div>
+    </div>
+
+    <!-- MEDICATION LIST -->
+    <div class="card">
+        <h2>Medication List</h2>
+        <div id="medList"></div>
+    </div>
+
+    <!-- REMINDER POPUP -->
+    <div id="reminderPopup" class="popup hidden">
+        <h3 id="popupMedName"></h3>
+        <p>Time to take your medicine</p>
+        <div class="popup-buttons">
+            <button id="takenBtn">✅ Taken</button>
+            <button id="snoozeBtn">⏰ Snooze</button>
+        </div>
+    </div>
+
+    <script src="../scripts/medications.js"></script>
+    <script src="../scripts/navbar.js"></script>
+</body>
+</html>

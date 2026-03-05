@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Appointments</title>
+  <link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../styles/nav.css">
+  <link rel="stylesheet" href="../styles/appointments.css">
+</head>
+<body>
+<div id="navbar-container"></div>
+<div class="header">
+  <h1>Appointments</h1>
+  <p id="upcomingCount"></p>
+</div>
+
+<div class="container">
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button id="upcomingTab" class="active">Upcoming</button>
+    <button id="pastTab">Past</button>
+  </div>
+
+  <a href="add-appointment.html" class="add-btn">+ Schedule Appointment</a>
+  <div id="calendarContainer"></div>
+  <div id="appointmentList"></div>
+
+</div>
+
+<script>
+if ("Notification" in window) {
+  Notification.requestPermission();
+}
+</script>
+
+<script src="../scripts/appointments.js"></script>
+<script src="../scripts/navbar.js"></script>
+</body>
+</html>

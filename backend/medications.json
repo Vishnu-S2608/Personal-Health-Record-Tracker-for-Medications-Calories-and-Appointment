@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1772356124806,
+        "name": "citzene",
+        "dosage": "500",
+        "frequency": "once",
+        "timings": [
+            "afternoon"
+        ],
+        "foodTiming": "after",
+        "startDate": "2026-03-01",
+        "endDate": "2026-03-05",
+        "reminderTime": "14:40",
+        "status": {
+            "2026-03-01": "missed"
+        }
+    },
+    {
+        "id": 1772431448313,
+        "name": "paracetamol",
+        "dosage": "500",
+        "frequency": "once",
+        "timings": [
+            "afternoon"
+        ],
+        "foodTiming": "after",
+        "startDate": "2026-03-02",
+        "endDate": "2026-03-27",
+        "reminderTime": "11:39",
+        "status": {
+            "2026-03-02": "taken"
+        }
+    }
+]

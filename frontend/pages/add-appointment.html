@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Schedule Appointment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --glass-bg: rgba(255,255,255,0.08);
+      --glass-border: rgba(255,255,255,0.18);
+      --glass-shadow: rgba(0,0,0,0.35);
+      --blur: 22px;
+      --accent: #a78bfa;
+      --accent-2: #67e8f9;
+      --text-primary: rgba(255,255,255,0.92);
+      --text-secondary: rgba(255,255,255,0.5);
+      --input-bg: rgba(255,255,255,0.06);
+      --input-border: rgba(255,255,255,0.14);
+      --input-focus-border: rgba(167,139,250,0.7);
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      color: var(--text-primary);
+      background: #0d0b1e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 15%, rgba(109,40,217,0.45) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 85% 75%, rgba(14,165,233,0.3) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 60% 10%, rgba(236,72,153,0.2) 0%, transparent 50%),
+        linear-gradient(160deg, #0d0b1e 0%, #110d2a 50%, #080d1f 100%);
+      z-index: 0;
+      animation: bgShift 14s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(167,139,250,0.18) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      animation: floatOrb 9s ease-in-out infinite alternate;
+      z-index: 0; pointer-events: none;
+    }
+
+    @keyframes bgShift {
+      from { filter: hue-rotate(0deg); }
+      to   { filter: hue-rotate(30deg); }
+    }
+    @keyframes floatOrb {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(-40px,60px) scale(1.12); }
+    }
+    @keyframes fadeDown {
+      from { opacity:0; transform:translateY(-20px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    .header {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 56px 24px 0;
+      animation: fadeDown 0.7s ease both;
+    }
+
+    .header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      background: linear-gradient(130deg, #e9d5ff 10%, #a5f3fc 60%, #c4b5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.15;
+    }
+
+    .header h1::after {
+      content: '';
+      display: block; width: 48px; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      margin: 14px auto 0; border-radius: 2px; opacity: 0.8;
+    }
+
+    .container {
+      position: relative; z-index: 2;
+      width: 100%; max-width: 520px;
+      padding: 36px 20px 60px;
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+
+    .card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      backdrop-filter: blur(var(--blur)) saturate(160%);
+      -webkit-backdrop-filter: blur(var(--blur)) saturate(160%);
+      box-shadow: 0 8px 40px var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.12);
+      padding: 40px 36px 44px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+
+    /* Row for date + time */
+    .date-time-row {
+      display: flex; gap: 12px;
+    }
+    .date-time-row input { flex: 1; }
+
+    input[type="text"], input[type="date"], input[type="time"],
+    textarea, select {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      padding: 13px 16px;
+      outline: none;
+      transition: border-color .25s, background .25s, box-shadow .25s;
+      -webkit-appearance: none; appearance: none;
+    }
+
+    input::placeholder, textarea::placeholder { color: var(--text-secondary); font-weight: 300; }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--input-focus-border);
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.15), 0 2px 12px rgba(167,139,250,0.12);
+    }
+
+    input[type="date"], input[type="time"] { color-scheme: dark; }
+
+    textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.45)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px; cursor: pointer;
+    }
+    select option { background: #1a1433; color: var(--text-primary); }
+
+    label {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.88rem; color: var(--text-secondary);
+      cursor: pointer; transition: color .2s; user-select: none;
+    }
+    label:hover { color: var(--text-primary); }
+
+    input[type="checkbox"] {
+      width: 18px; height: 18px; padding: 0;
+      appearance: none; -webkit-appearance: none;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 5px; flex-shrink: 0;
+      position: relative; cursor: pointer;
+      transition: background .2s, border-color .2s;
+    }
+    input[type="checkbox"]:checked {
+      background: var(--accent); border-color: var(--accent);
+    }
+    input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute; inset: 3px 4px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 8'%3E%3Cpath d='M1 4l3 3 5-6' stroke='white' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+    }
+
+    button.add-btn {
+      margin-top: 6px; width: 100%; padding: 15px;
+      border: none; border-radius: 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer; position: relative; overflow: hidden;
+      color: #fff;
+      background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 50%, #38bdf8 100%);
+      background-size: 200% 200%; background-position: 0% 50%;
+      box-shadow: 0 4px 20px rgba(124,58,237,0.45), inset 0 1px 0 rgba(255,255,255,0.12);
+      transition: background-position .5s, transform .2s, box-shadow .3s;
+    }
+    button.add-btn::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    button.add-btn:hover {
+      background-position: 100% 50%;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(124,58,237,0.55), 0 0 40px rgba(167,139,250,0.2);
+    }
+    button.add-btn:active { transform: translateY(0); }
+    button.add-btn::after {
+      content: ''; position: absolute;
+      top: -50%; left: -75%; width: 50%; height: 200%;
+      background: rgba(255,255,255,0.08);
+      transform: skewX(-20deg); transition: left .6s;
+    }
+    button.add-btn:hover::after { left: 130%; }
+
+    .card > * { animation: fadeUp 0.5s ease both; }
+    .card > *:nth-child(1) { animation-delay: .20s; }
+    .card > *:nth-child(2) { animation-delay: .28s; }
+    .card > *:nth-child(3) { animation-delay: .34s; }
+    .card > *:nth-child(4) { animation-delay: .40s; }
+    .card > *:nth-child(5) { animation-delay: .46s; }
+    .card > *:nth-child(6) { animation-delay: .52s; }
+    .card > *:nth-child(7) { animation-delay: .58s; }
+    .card > *:nth-child(8) { animation-delay: .63s; }
+    .card > *:nth-child(9) { animation-delay: .68s; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.3); border-radius: 4px; }
+
+    @media (max-width: 480px) {
+      .card { padding: 28px 22px 34px; border-radius: 18px; }
+      .date-time-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1 id="formTitle">Schedule Appointment</h1>
+</div>
+
+<div class="container">
+  <form id="appointmentForm" class="card">
+
+    <input type="text"  id="doctorName"  placeholder="Doctor Name"      required>
+    <input type="text"  id="specialty"   placeholder="Specialty"         required>
+    <input type="text"  id="hospital"    placeholder="Hospital / Clinic">
+
+    <div class="date-time-row">
+      <input type="date" id="date" required>
+      <input type="time" id="time" required>
+    </div>
+
+    <textarea id="notes" placeholder="Notes"></textarea>
+
+    <select id="reminderTiming">
+      <option value="1day">1 Day Before</option>
+      <option value="1hour">1 Hour Before</option>
+      <option value="30min">30 Min Before</option>
+    </select>
+
+    <label>
+      <input type="checkbox" id="isOnline"> Online Consultation
+    </label>
+
+    <input type="text" id="meetLink" placeholder="Meeting Link">
+
+    <button class="add-btn" type="submit">Save Appointment</button>
+  </form>
+  <script src="../scripts/add-appointment.js"></script>
+</div>
+
+</body>
+</html>
